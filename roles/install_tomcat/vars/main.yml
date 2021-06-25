@@ -1,0 +1,7 @@
+---
+# vars file for install_tomcat
+tomcat_version: https://apache-mirror.rbc.ru/pub/apache/tomcat/tomcat-8/v8.5.66/bin/apache-tomcat-8.5.66.tar.gz
+tomcat_version1: https://apache-mirror.rbc.ru/pub/apache/tomcat/tomcat-8/v8.5.66/bin/apache-tomcat-7.5.66.tar.gz
+tomcat_version2: https://apache-mirror.rbc.ru/pub/apache/tomcat/tomcat-8/v8.5.66/bin/apache-tomcat-9.5.66.tar.gz
+
+tomcat_user: tomcat

@@ -1,0 +1,3 @@
+---
+# vars file for install_nginx
+number_of_port: 80

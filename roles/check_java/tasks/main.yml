@@ -1,0 +1,11 @@
+---
+# tasks file for check_java
+   - name: check java
+     shell: 
+          ver=$(java -version)
+          echo $ver
+     register: version
+
+   - name: writeline version
+     debug: 
+         msg: "{{ version.stdout }}"

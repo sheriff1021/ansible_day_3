@@ -1,0 +1,9 @@
+---
+# handlers file for install_tomcat
+ - name: restart if needed
+   systemd:
+      name: tomcat
+      state: restarted
+      enabled: yes
+   become: yes
+   become_user: root

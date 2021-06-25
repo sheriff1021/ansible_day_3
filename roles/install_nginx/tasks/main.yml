@@ -1,0 +1,31 @@
+---
+# tasks file for install_nginx
+ - name: install epel
+   shell: 
+       yum install -y epel-release
+   become: yes
+   become_user: root
+
+ - name: Install nginx
+   yum:
+       name: nginx
+       state: present
+   become: yes
+   become_user: root
+   notify: start daemon
+
+ - name: configure nginx via template
+   template:
+        src: ./nginx.conf
+        dest: /etc/nginx
+        mode: 777
+   become: yes
+   become_user: root
+   notify: restart if needed
+
+ - name: disable selinux
+   template: 
+       src: ./config
+       dest: /etc/selinux
+   become: yes
+   become_user: root

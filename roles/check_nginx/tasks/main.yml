@@ -1,0 +1,11 @@
+---
+# tasks file for check_nginx
+ - name: check nginx
+   shell:
+      ps ax | grep nginx
+   register: resulet
+
+ - name: print result
+   debug:
+        msg: "{{ resulet.stdout }}"
+

@@ -1,0 +1,41 @@
+
+ - name: mng vagrant  
+   hosts: 127.0.0.1
+   gather_facts: no
+   tasks:
+ 
+
+   - name: vagrant info
+     delegate_to: 127.0.0.1
+     vagr:
+       path1: "/home/centos/vag"
+       state: "started"
+     register: outputka
+
+   - debug: var=outputka
+
+   - debug:
+       msg: "{{ outputka.port }}"
+
+   - add_host:     
+          name: "precise32"
+          ansible_host: "{{ outputka.ip }}"
+          ansible_port: "{{ outputka.port }}"
+          ansible_user: "{{ outputka.user }}"
+          ansible_connection: 'ssh'
+          ansible_ssh_private_key: "{{ outputka.key }}"
+
+
+     when: outputka.state == "started"
+
+
+ - name: install apps
+   gather_facts: no
+   hosts: precise32
+
+
+   roles:
+      - install_java
+      - install_tomcat
+      - install_nginx
+

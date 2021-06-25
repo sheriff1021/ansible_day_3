@@ -1,0 +1,64 @@
+---
+# tasks file for install_tomcat
+ - name: add tomcat group
+   group:
+      gid: 1140
+      name: tomcat
+      state: present
+   become: yes
+   become_user: root
+
+ - name: add tomcat user
+   user:
+      name: "{{ tomcat_user }}"
+      group: tomcat
+      home: /user/share/tomcat
+      createhome: no
+   become: yes
+   become_user: root
+
+ - name: create /opt/tomcat directory
+   file:
+      path: /opt/tomcat
+      state: directory
+      mode: 0755
+   become: yes
+   become_user: root
+
+ - name: download & unarchive
+   unarchive:
+      src: "{{ tomcat_version }}"
+      dest: /opt/tomcat
+      remote_src: yes
+      extra_opts: [--strip-components=1]
+   become: yes
+   become_user: root
+   notify: restart if needed
+
+ - name: Change ownership
+   file:
+      path: /opt/tomcat
+      owner: "{{ tomcat_user }}"
+      group: tomcat
+      mode: "u+rwx,g+rx,o=rx"
+      recurse: yes
+      state: directory
+   become: yes
+   become_user: root
+
+ - name: Copy Tomcat service from local to remote
+   copy:
+       src: tomcat.service
+       dest: /etc/systemd/system/
+       mode: 0755
+   become: yes
+   become_user: root
+
+ - name: Start and enable Tomcat service
+   systemd:
+      name: tomcat
+      state: started
+      enabled: true
+      daemon_reload: true
+   become: yes
+   become_user: root
